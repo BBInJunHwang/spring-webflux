@@ -3,10 +3,7 @@ package com.webflux.springwebflux.user.controller;
 import com.webflux.springwebflux.user.domain.User;
 import com.webflux.springwebflux.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -25,5 +22,10 @@ public class UserController {
     @GetMapping("/{id}")
     public Mono<User> getUser(@PathVariable String id) {
         return userService.getUserById(id);
+    }
+
+    @PostMapping
+    public Mono<User> createUser(@RequestBody User user) {
+        return userService.createUser(user);
     }
 }

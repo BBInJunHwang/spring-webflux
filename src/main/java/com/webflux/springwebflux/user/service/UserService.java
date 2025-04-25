@@ -1,28 +1,26 @@
 package com.webflux.springwebflux.user.service;
 
 import com.webflux.springwebflux.user.domain.User;
+import com.webflux.springwebflux.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Service
+@RequiredArgsConstructor
 public class UserService {
-
-    private final List<User> users = List.of(
-            new User("1", "Alice"),
-            new User("2", "Bob"),
-            new User("3", "Charlie")
-    );
+    private final UserRepository userRepository;
 
     public Flux<User> getAllUsers() {
-        return Flux.fromIterable(users);
+        return userRepository.findAll();
     }
 
     public Mono<User> getUserById(String id) {
-        return Mono.justOrEmpty(users.stream()
-                .filter(user -> user.getId().equals(id))
-                .findFirst());
+        return userRepository.findById(id);
+    }
+
+    public Mono<User> createUser(User user) {
+        return userRepository.save(user);
     }
 }
